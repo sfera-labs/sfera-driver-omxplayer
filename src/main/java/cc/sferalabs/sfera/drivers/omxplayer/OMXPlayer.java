@@ -39,11 +39,27 @@ public class OMXPlayer extends Driver {
 	}
 
 	/**
-	 * @param file
-	 * @param options
-	 * @throws IOException
+	 * @return
 	 */
-	public void play(String file, String... options) throws IOException {
+	private boolean isProcessRunning() {
+		if (process == null) {
+			return false;
+		}
+		return process.getProcess().isAlive();
+	}
+
+	/**
+	 * Launches OMXPlayer to play the specified file and adding the specified
+	 * options.
+	 * 
+	 * @param file
+	 *            the file to play
+	 * @param options
+	 *            optional options
+	 * @throws IOException
+	 *             if an I/O error occurs
+	 */
+	public synchronized void play(String file, String... options) throws IOException {
 		try {
 			stop();
 		} catch (Exception e) {
@@ -53,30 +69,48 @@ public class OMXPlayer extends Driver {
 	}
 
 	/**
+	 * Pauses/resumes the current stream.
+	 * 
 	 * @throws IOException
+	 *             If an I/O error occurs
 	 */
-	public void pause() throws IOException {
-		if (process != null) {
-			process.write("p");
-		}
+	public synchronized void pauseResume() throws IOException {
+		keyCommand("p");
 	}
 
 	/**
+	 * Stops the playback.
+	 * 
 	 * @throws IOException
+	 *             If an I/O error occurs
+	 * @throws InterruptedException
+	 *             if interrupted while waiting for termination
 	 */
-	public void stop() throws IOException {
-		if (process != null) {
-			process.write("q");
+	public synchronized void stop() throws IOException, InterruptedException {
+		keyCommand("q");
+		for (int i = 0; i < 20; i++) {
+			if (isProcessRunning()) {
+				Thread.sleep(50);
+			} else {
+				return;
+			}
+		}
+		if (isProcessRunning()) {
 			process.quit();
 		}
 	}
 
 	/**
+	 * Sends the specified command to the current playback. Run
+	 * {@code omxplayer --keys} to see the list of available commands.
+	 * 
 	 * @param cmd
+	 *            the command to send
 	 * @throws IOException
+	 *             If an I/O error occurs
 	 */
-	public void keyCommand(String cmd) throws IOException {
-		if (process != null) {
+	public synchronized void keyCommand(String cmd) throws IOException {
+		if (isProcessRunning()) {
 			process.write(cmd);
 		}
 	}
