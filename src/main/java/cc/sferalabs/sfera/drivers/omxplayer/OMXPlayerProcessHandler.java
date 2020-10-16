@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import cc.sferalabs.sfera.drivers.omxplayer.events.OMXPlayerDurationEvent;
+import cc.sferalabs.sfera.drivers.omxplayer.events.OMXPlayerElapsedEvent;
 import cc.sferalabs.sfera.drivers.omxplayer.events.OMXPlayerPlayEvent;
 import cc.sferalabs.sfera.events.Bus;
 import cc.sferalabs.sfera.util.files.FilesUtil;
@@ -67,6 +68,18 @@ public class OMXPlayerProcessHandler extends ProcessHandler implements ProcessLi
 	@Override
 	public void onOutputLine(String line) {
 		log.debug("OUT: {}", line);
+		if (line != null) {
+			line = line.trim();
+			if (line.startsWith("M:")) {
+				try {
+					int end = line.indexOf(' ');
+					long elapsed = Long.parseLong(line.substring(2, end).trim());
+					elapsed /= 1000000;
+					Bus.postIfChanged(new OMXPlayerElapsedEvent(omx, elapsed));
+				} catch (Exception e) {
+				}
+			}
+		}
 	}
 
 	@Override

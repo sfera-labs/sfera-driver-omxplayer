@@ -4,7 +4,7 @@
 		<p>
 		Make sure OMXPlayer is installed:
 		<pre>
-$ sudo apt-get install omxplayer
+sudo apt-get install omxplayer
 		</pre>
 		OMXPlayer on Raspberry Pi requires the ARM side libraries for interfacing to the GPU. Those libraries are located in <code>/opt/vc/lib</code>.<br />
 		The following libraries are required:
@@ -21,24 +21,24 @@ $ sudo apt-get install omxplayer
 		</ul>
 		In case they are missing:
 		<pre>
-$ sudo mkdir -p /opt/vc/lib
-$ cd /opt/vc/lib
-$ sudo wget https://raw.githubusercontent.com/raspberrypi/firmware/master/hardfp/opt/vc/lib/libWFC.so
-$ sudo wget https://raw.githubusercontent.com/raspberrypi/firmware/master/hardfp/opt/vc/lib/libEGL.so
-$ sudo wget https://raw.githubusercontent.com/raspberrypi/firmware/master/hardfp/opt/vc/lib/libbcm_host.so
-$ sudo wget https://raw.githubusercontent.com/raspberrypi/firmware/master/hardfp/opt/vc/lib/libvchiq_arm.so
-$ sudo wget https://raw.githubusercontent.com/raspberrypi/firmware/master/hardfp/opt/vc/lib/libvcos.so
-$ sudo wget https://raw.githubusercontent.com/raspberrypi/firmware/master/hardfp/opt/vc/lib/libGLESv2.so
-$ sudo wget https://raw.githubusercontent.com/raspberrypi/firmware/master/hardfp/opt/vc/lib/libopenmaxil.so
-$ sudo wget https://raw.githubusercontent.com/raspberrypi/firmware/master/hardfp/opt/vc/lib/libbrcmGLESv2.so
-$ sudo wget https://raw.githubusercontent.com/raspberrypi/firmware/master/hardfp/opt/vc/lib/libbrcmEGL.so
-$ sudo ldconfig
+sudo mkdir -p /opt/vc/lib
+cd /opt/vc/lib
+sudo wget https://raw.githubusercontent.com/raspberrypi/firmware/master/hardfp/opt/vc/lib/libWFC.so
+sudo wget https://raw.githubusercontent.com/raspberrypi/firmware/master/hardfp/opt/vc/lib/libEGL.so
+sudo wget https://raw.githubusercontent.com/raspberrypi/firmware/master/hardfp/opt/vc/lib/libbcm_host.so
+sudo wget https://raw.githubusercontent.com/raspberrypi/firmware/master/hardfp/opt/vc/lib/libvchiq_arm.so
+sudo wget https://raw.githubusercontent.com/raspberrypi/firmware/master/hardfp/opt/vc/lib/libvcos.so
+sudo wget https://raw.githubusercontent.com/raspberrypi/firmware/master/hardfp/opt/vc/lib/libGLESv2.so
+sudo wget https://raw.githubusercontent.com/raspberrypi/firmware/master/hardfp/opt/vc/lib/libopenmaxil.so
+sudo wget https://raw.githubusercontent.com/raspberrypi/firmware/master/hardfp/opt/vc/lib/libbrcmGLESv2.so
+sudo wget https://raw.githubusercontent.com/raspberrypi/firmware/master/hardfp/opt/vc/lib/libbrcmEGL.so
+sudo ldconfig
 		</pre>
 		Test your OMXPlayer installations running:
 		<pre>
-$ sudo omxplayer &lt;file&gt;
+sudo omxplayer &lt;file&gt;
 		</pre>
-		To enable HDMI output at startup even when not connected, edit the file<code>/boot/config.txt</code> uncommenting the lines:
+		To enable HDMI output at startup even when not connected, edit the file <code>/boot/config.txt</code> uncommenting the lines:
 		<pre>
 hdmi_force_hotplug=1
 hdmi_drive=2
@@ -46,7 +46,7 @@ hdmi_drive=2
 		
 		@author Giampiero Baggiani
 		@sfera.config type
-			cc.sferalabs.sfera.drivers.vlc.VLC
+			cc.sferalabs.sfera.drivers.omxplayer.OMXPlayer
 		@sfera.config options
 			String containing the default options to launch OMXPlayer with (e.g. "-b -o hdmi --no-osd")
 
